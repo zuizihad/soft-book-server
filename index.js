@@ -56,14 +56,13 @@ client.connect(err => {
         OrderCollection.insertOne(newCheckout)
             .then((result) => {
                 res.status(200).send('inserted')
-                console.log('checkout:', newCheckout);
             })
     })
 
     app.get('/orders', (req, res) => {
-        OrderCollection.find({})
+        OrderCollection.find({ email: req.query.email })
             .toArray((err, documents) => {
-                res.send(documents)
+                res.send(documents);
             })
     })
 });
