@@ -13,8 +13,6 @@ app.get('/', (req, res) => {
     res.send('working')
 })
 
-
-
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.xn8r5.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect(err => {
@@ -33,14 +31,13 @@ client.connect(err => {
             .then(result => {
                 res.send(result.insertedCount > 0)
             })
-
     })
 
-    app.delete('deleteBook/:id', (req, res) => {
+    app.delete('/deleteBook/:id', (req, res) => {
+        console.log(req.params.id)
         const id = ObjectID(req.params.id);
         collection.findOneAndDelete({ _id: id })
-            .then(documents => res.send(documents.value))
-
+            .then(documents => res.send(documents))
     })
 
     app.get('/book/:id', (req, res) => {
